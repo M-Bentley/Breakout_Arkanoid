@@ -1,21 +1,17 @@
-#-----!!!!SPACE INVADERS!!!!-----
-
 import pygame
 from pygame.locals import *
 
-#----------------------------------------------------------------------
 
-class Ship():
+
+class Player():
 
     def __init__(self, screen_rect):
 
-        #self.image = pygame.image.load("spaceship.png")
         self.image = pygame.image.load("H:\Itchy.png")
-        self.image = pygame.transform.scale(self.image, (100,50))
+        self.image = pygame.transform.scale(self.image, (50,100))
 
         self.rect = self.image.get_rect()
-
-        # put ship bottom, center x 
+ 
         self.rect.bottom = screen_rect.bottom 
         self.rect.centerx = screen_rect.centerx
 
@@ -24,13 +20,9 @@ class Ship():
         self.shots = []
         self.shots_count = 0
 
-        self.max_shots = 2
-
-    #--------------------
+        self.max_shots = 1
 
     def event_handler(self, event):
-
-        #print "debug: Ship.event_handler"
 
         if event.type == KEYDOWN:
             if event.key == K_LEFT:
@@ -44,26 +36,22 @@ class Ship():
         if event.type == KEYUP:
             if event.key in (K_LEFT, K_RIGHT):
                 self.move_x = 0
+     
 
     def update(self):
-
-        #print "debug: Ship.update: move_x", self.move_x
+        
         self.rect.x += self.move_x
 
         for s in self.shots:
             s.update()
 
         for i in range(len(self.shots)-1, -1, -1):
-            print "debug: Ship.update: testing bullet ", i
+            print "debug: Player.update: testing bullet ", i
             if not self.shots[i].is_alive:
-                print "debug: Ship.update: removing bullet ", i
+                print "debug: Player.update: removing bullet ", i
                 del self.shots[i]
 
-    #--------------------
-
     def draw(self, screen):
-
-        #print "debug: Ship.draw"
 
         screen.blit(self.image, self.rect.topleft)
 
@@ -82,9 +70,9 @@ class Bullet():
 
     def __init__(self, x, y):
 
-        #self.image = pygame.image.load("SingleBullet.png")
         self.image = pygame.image.load("H:619px-Chainsaw_symbol_2010-02-16.svg.png")
-        self.image = pygame.transform.scale(self.image, (25,25))
+        self.image = pygame.transform.scale(self.image, (50,25))
+        self.image = pygame.transform.rotate(self.image, (270))
 
         self.rect = self.image.get_rect()
         self.rect.centerx = x
@@ -106,11 +94,12 @@ class Bullet():
         screen.blit(self.image, self.rect.topleft)
 
 
-class Enemy():
+class Enemy(): 
 
     def __init__(self, x, y):
 
         self.image = pygame.image.load("H:Scratchy.gif")
+        self.image = pygame.transform.scale(self.image, (70,170))
 
         self.rect = self.image.get_rect()
         self.rect.centerx = x
@@ -119,20 +108,16 @@ class Enemy():
         self.is_alive = True
 
     def update(self):
-
+        
         self.rect.y += 1
-
-        #~ if self.rect.y < 0:
-            #~ self.is_alive = False
 
     def draw(self, screen):
 
         screen.blit(self.image, self.rect.topleft)
 
 class Game():
-
+    
     def __init__(self):
-
         pygame.init()
 
         w, h = 800, 800
@@ -140,12 +125,12 @@ class Game():
 
         pygame.mouse.set_visible(False)
 
-        self.ship = Ship(self.screen.get_rect())
+        self.ship = Player(self.screen.get_rect())
 
         self.enemies = []
 
         for i in range(100, 800, 100):
-            self.enemies.append(Enemy(i, 100))
+            self.enemies.append(Enemy(i,100))
 
         font = pygame.font.SysFont("", 72)
         self.text_paused = font.render("PAUSED", True, (255, 0, 0))
@@ -159,6 +144,7 @@ class Game():
         PAUSED = False
 
         while RUNNING:
+            pygame.timer.set_timer(pygame.QUIT,400)
 
             clock.tick(30)
 
@@ -187,9 +173,9 @@ class Game():
                 self.ship.bullet_detect_collison(self.enemies)
 
                 for i in range(len(self.enemies)-1, -1, -1):
-                    print "debug: Ship.update: testing bullet ", i
+                    print "debug: Player.update: testing bullet ", i
                     if not self.enemies[i].is_alive:
-                        print "debug: Ship.update: removing bullet ", i
+                        print "debug: Player.update: removing bullet ", i
                         del self.enemies[i]
 
 
