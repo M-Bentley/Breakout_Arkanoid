@@ -123,8 +123,6 @@ class Enemy():
 
 class Game():
     
-    pygame.mixer.Sound(H:\mus\DIVERSA - underscore - 08 sandboxmode2)
-    
     def __init__(self):
         pygame.init()
 
@@ -141,7 +139,7 @@ class Game():
             self.enemies.append(Enemy(i,100))
 
         font = pygame.font.SysFont("", 72)
-        self.text_paused = font.render("PAUSED", True, (255, 0, 0))
+        self.text_paused = font.render("GAME OVER", True, (255, 0, 0))
         self.text_paused_rect = self.text_paused.get_rect(center=self.screen.get_rect().center)
 
     def run(self):
@@ -152,6 +150,7 @@ class Game():
         PAUSED = False
 
         while RUNNING:
+
 
             clock.tick(30)
 
