@@ -21,12 +21,18 @@ class Player():
         self.shots_count = 0
 
         self.max_shots = 1
+        
+        
 
     def event_handler(self, event):
+        
+        #px1,px2 = self.image
 
         if event.type == KEYDOWN:
             if event.key == K_LEFT:
-                self.move_x = -5
+                #if px2 > 800:
+	          self.move_x = -5
+                
             elif event.key == K_RIGHT:
                 self.move_x = 5
             elif event.key == K_SPACE:
@@ -117,6 +123,8 @@ class Enemy():
 
 class Game():
     
+    pygame.mixer.Sound(H:\mus\DIVERSA - underscore - 08 sandboxmode2)
+    
     def __init__(self):
         pygame.init()
 
@@ -144,7 +152,6 @@ class Game():
         PAUSED = False
 
         while RUNNING:
-            pygame.timer.set_timer(pygame.QUIT,400)
 
             clock.tick(30)
 
@@ -159,7 +166,11 @@ class Game():
 
                     if event.key == K_p:
                         PAUSED = not PAUSED
-
+                    
+                    if event.key == K_q:
+                        RUNNING = False
+                
+                
                 if not PAUSED:
                     self.ship.event_handler(event)
 
@@ -177,6 +188,7 @@ class Game():
                     if not self.enemies[i].is_alive:
                         print "debug: Player.update: removing bullet ", i
                         del self.enemies[i]
+                        #RUNNING = False
 
 
             self.screen.fill((0,0,0))
