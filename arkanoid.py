@@ -114,8 +114,8 @@ class Enemy():
         self.is_alive = True
 
     def update(self):
-        
-        self.rect.y += 1
+        self.rect.y += 2.
+            
 
     def draw(self, screen):
 
@@ -125,7 +125,6 @@ class Game():
     
     def __init__(self):
         pygame.init()
-
         w, h = 800, 800
         self.screen = pygame.display.set_mode((w,h))
 
@@ -135,8 +134,8 @@ class Game():
 
         self.enemies = []
 
-        for i in range(100, 800, 100):
-            self.enemies.append(Enemy(i,100))
+        for i in range(50, 800, 50):
+            self.enemies.append(Enemy(i,10))
 
         font = pygame.font.SysFont("", 72)
         self.text_paused = font.render("GAME OVER", True, (255, 0, 0))
